@@ -27,8 +27,7 @@ Create Date: 2/25/2022, 9:23 PM.
 '''
 
 import pandas as pd
-import os
-from pathlib import Path
+
 
 class Text_spliter:
     def __init__(self, full_text_path: str, excel_file_name: str, sheet_name: str, col_name: str):
@@ -62,7 +61,7 @@ class Text_spliter:
         # Set DataFrame name.
         emailes_df.name = self.sheet_name
         # write emails_df to excel.
-        emailes_df.to_excel(self.excel_file_name, index=False)
+        emailes_df.to_excel(self.excel_file_name,self.sheet_name, index=False)
         print(f'Emails has been written to {self.excel_file_name}.xlsx/sheet: {self.sheet_name}.')
 
 
@@ -89,33 +88,4 @@ class Text_spliter:
         return emails_list
 
 
-def main():
-    # 1 - Set the directory path.
-    # BASE_DIR => File directory path in the system.
-    BASE_DIR = Path(__file__).resolve().parent.parent 
-    
-    # 2 - Set the file path in the directory.
-    # text_path_in_dir => text file path withen the directory.
-    text_path_in_dir ='schadualed_email/row_email_text_files/emails-0003 (indexed).txt'
-    
-    # 3 - set the full file path.
-    # full_text_path => full path to the text file.
-    full_text_path = os.path.join(BASE_DIR, text_path_in_dir).replace('\\','/')
-    
-    emails_list = Text_spliter(full_text_path, 'emails0005.xlsx', 'Emails', 'Email')
-    
-    # 4 - Convert the text into lines and saved it into list of lines.
-    # text_rows => the text file splited into lines and saved in list.
-    text_rows = emails_list.from_txt_to_list()
-    
-    # 5 - Exctract emailes from text rows by removing the index from the rows.
-    #splited_rows => text_rows with cleaned emails.
-    splited_rows = emails_list.split_by_index(text_rows)
-    
-    # 6 - Write the emails to excel file.
-    emails_list.to_excel(splited_rows)
-
-
-if __name__ == '__main__':
-
-    main()
+ 
