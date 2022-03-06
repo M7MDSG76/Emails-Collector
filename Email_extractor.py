@@ -30,57 +30,63 @@ import pandas as pd
 import os
 from pathlib import Path
 
+class Text_spliter:
+    def __init__(self, full_text_path: str, excel_file_name: str, sheet_name: str, col_name: str):
+        self.full_text_path = full_text_path
+        self.excel_file_name = excel_file_name
+        self.sheet_name = sheet_name
+        self.col_name = col_name
+        pass  
+     
+    # split text by index number.
+    def split_by_index(self, strings_list):
+        # cleaned_emails is a list of email addresses that were cleaned from the email list
+        cleaned_emails = []
 
-# split text by index number.
-def split_by_index(strings_list):
-    # cleaned_emails is a list of email addresses that were cleaned from the email list
-    cleaned_emails = []
+        # iterate over emails in the email_list
+        for i, e in enumerate(strings_list):
 
-    # iterate over emails in the email_list
-    for i, e in enumerate(strings_list):
+            # add the email[i] to cleaned_emails after replacing the order numberand all whitespaces.
+            cleaned_emails.append(strings_list[i].replace(str(i + 1), '').strip())
 
-        # add the email[i] to cleaned_emails after replacing the order numberand all whitespaces.
-        cleaned_emails.append(strings_list[i].replace(str(i + 1), '').strip())
+            # print cleaned_emails
+            # print('email No: {}\n email address: {}'.format(i+1, cleaned_emails[i]))
 
-        # print cleaned_emails
-        # print('email No: {}\n email address: {}'.format(i+1, cleaned_emails[i]))
-
-    return cleaned_emails
-
-
-# write the list to excel.
-def to_excel(strings_list):
-    # put emails into DataFrame.
-    emailes_df = pd.DataFrame(strings_list, columns=['email_address'])
-    sheet_name = 'Emails'
-    # Set DataFrame name.
-    emailes_df.name = sheet_name
-    # write emails_df to excel.
-    emailes_df.to_excel(f'{emailes_df.name}-0005.xlsx', index=False)
-    print(f'Emails has been written to {emailes_df.name}.')
+        return cleaned_emails
 
 
-# This function count number of lines in txt file
-def from_txt_to_list(full_text_path):
-    # Open the txt file
-    file = open(full_text_path, 'r')
-    # This list is container of extracted emails.
-    email_list = []
-    # number of lines in txt file
-    line_num = 0
-    # iterate through lines in txt fil
-    for line in file:
-        # append line to email list
-        if line != '\n':
-            # append the email address to email_list
-            email_list.append(line)
-            # increment line_num
-            line_num += 1
+    # write the list to excel.
+    def to_excel(self, strings_list):
+        # put emails into DataFrame.
+        emailes_df = pd.DataFrame(strings_list, columns=[self.col_name])
+        # Set DataFrame name.
+        emailes_df.name = self.sheet_name
+        # write emails_df to excel.
+        emailes_df.to_excel(self.excel_file_name, index=False)
+        print(f'Emails has been written to {self.excel_file_name}.xlsx/sheet: {self.sheet_name}.')
 
-    # print the total number of lines.
-    # print("line_num: {}. \n lingth of email_list: {}".format(
-    #   line_num, len(email_list)))
-    return email_list
+
+    # This function count number of lines in txt file
+    def from_txt_to_list(self):
+        # Open the txt file
+        file = open(self.full_text_path, 'r')
+        # This list is container of extracted emails.
+        emails_list = []
+        # number of lines in txt file
+        line_num = 0
+        # iterate through lines in txt fil
+        for line in file:
+            # append line to email list
+            if line != '\n':
+                # append the email address to email_list
+                emails_list.append(line)
+                # increment line_num
+                line_num += 1
+
+        # print the total number of lines.
+        # print("line_num: {}. \n lingth of email_list: {}".format(
+        #   line_num, len(email_list)))
+        return emails_list
 
 
 def main():
@@ -96,16 +102,18 @@ def main():
     # full_text_path => full path to the text file.
     full_text_path = os.path.join(BASE_DIR, text_path_in_dir).replace('\\','/')
     
+    emails_list = Text_spliter(full_text_path, 'emails0005.xlsx', 'Emails', 'Email')
+    
     # 4 - Convert the text into lines and saved it into list of lines.
     # text_rows => the text file splited into lines and saved in list.
-    text_rows = from_txt_to_list(full_text_path)
+    text_rows = emails_list.from_txt_to_list()
     
     # 5 - Exctract emailes from text rows by removing the index from the rows.
     #splited_rows => text_rows with cleaned emails.
-    splited_rows = split_by_index(text_rows)
+    splited_rows = emails_list.split_by_index(text_rows)
     
     # 6 - Write the emails to excel file.
-    to_excel(splited_rows)
+    emails_list.to_excel(splited_rows)
 
 
 if __name__ == '__main__':
