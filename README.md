@@ -1,4 +1,3 @@
-<h1> Email Collector </h1>
 # Emails Collector
 
 Emails Collector is a Python program that collects emails from a text file and saves it into an excel file.
@@ -30,7 +29,7 @@ splited_rows = emails_list.split_by_index(text_rows)
 # 5 - Write the emails to excel file.
 emails_list.to_excel(splited_rows)
 ```
-#### sample input (sample.txt)
+### sample input (sample.txt)
 ```text
 1 example@domain.com
 2 example@domain.com
@@ -42,16 +41,16 @@ emails_list.to_excel(splited_rows)
 100  example@domain.com
 1000     example@domain.com
 ```
-#### sample output(sample.xlsx)
-```
+### sample output(sample.xlsx)
+
 |Email             |
 |------------------|             
 |example@domain.com|
 |example@domain.com|
 |example@domain.com|
 |example@domain.com|
-|...               |
-```
+|. . .             |
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
