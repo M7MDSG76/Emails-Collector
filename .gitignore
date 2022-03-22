@@ -5,4 +5,6 @@
 
 # ignore main file because it is just for development.
 main.py
+# I made this function for a person so its not mine
+MySpliter.py
 
