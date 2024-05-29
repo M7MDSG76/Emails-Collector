@@ -1,6 +1,6 @@
 # Emails Collector
 
-Emails Collector is a Python program that collects emails from a text file and saves it into an excel file.
+Emails Collector is a Python program that collects emails from a text file that is collected from websites, word files, or whatever source that contains random text contains emails, organizes it and saves it into an Excel file.
 
 ## Requirments 
 pandas == 1.0.5\
@@ -18,15 +18,15 @@ text_path = 'emails0001.txt'
 # 2 - Declare Text_spliter object.
 emails_list = Text_spliter(text_path, 'emails0001.xlsx', 'Emails', 'email')
 
-# 3 - Convert the text into lines and saved it into list of lines.
-# text_rows => the text file splited into lines and saved in list.
+# 3 - Convert the text into lines and save it into a list of lines.
+# text_rows => the text file split into lines and saved in list.
 text_rows = emails_list.from_txt_to_list()
 
-# 4 - Exctract emailes from text rows by removing the index from the rows.
+# 4 - Extract emails from text rows by removing the index from the rows.
 #splited_rows => text_rows with cleaned emails.
 splited_rows = emails_list.split_by_index(text_rows)
 
-# 5 - Write the emails to excel file.
+# 5 - Write the emails in to Excel file.
 emails_list.to_excel(splited_rows)
 ```
 ### sample input (sample.txt)
