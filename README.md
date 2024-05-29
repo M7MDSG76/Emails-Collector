@@ -1,6 +1,6 @@
 # Emails Collector
 
-Emails Collector is a Python program that collects emails from a text file that is collected from websites, word files, or whatever source that contains random text contains emails, organizes it and saves it into an Excel file.
+Emails Collector is a Python program that collects emails from a text file that is collected from websites, word files, or whatever source that contains random text contains emails and saves it into an Excel file.
 
 ## Requirments 
 pandas == 1.0.5\
